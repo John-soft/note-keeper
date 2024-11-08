@@ -5,8 +5,8 @@ const handleResponse = async (req, res, payload, statusCode) => {
     res.setHeader("X-XSS-Protection", "1; mode=block");
 
     return res.status(statusCode).json({
-      data: payload,
       status: statusCode < 400 ? "Success" : "Error",
+      data: payload,
     });
   } catch (error) {
     console.log(error);
