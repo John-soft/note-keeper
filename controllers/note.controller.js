@@ -3,7 +3,13 @@ const Note = require("../models/Note");
 class NoteController {
   createNote = async (req, res) => {
     try {
-      const note = await Note.create(req.body);
+      const { title, content, folderId } = req.body;
+      const note = await Note.create({
+        title,
+        content,
+        user: req.user,
+        folder: folderId,
+      });
       handleResponse(
         req,
         res,
@@ -25,7 +31,7 @@ class NoteController {
 
   viewAllNotes = async (req, res) => {
     try {
-      const notes = await Note.find();
+      const notes = await Note.find({ user: req.user }).sort({ createdAt: -1 });
       if (!notes) {
         return {
           message: "Notes not found",
@@ -53,7 +59,7 @@ class NoteController {
   viewNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const notes = await Note.findById(id);
+      const notes = await Note.findOne({ _id: id, user: req.user });
       if (!notes) {
         return {
           message: "Note not found",
@@ -81,9 +87,15 @@ class NoteController {
   editNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const note = await Note.findByIdAndUpdate(id, req.body, {
-        new: true,
-      });
+      //const { title, content } = req.body;
+      const note = await Note.findOneAndUpdate(
+        { _id: id, user: req.user },
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
       if (!note) {
         return {
           message: "Note not found",
@@ -109,7 +121,7 @@ class NoteController {
   deleteNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const note = await Note.findByIdAndDelete(id);
+      const note = await Note.findOneAndDelete({ _id: id, user: req.user });
       if (!note) {
         return {
           message: "Note not found",

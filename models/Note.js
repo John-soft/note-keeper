@@ -8,7 +8,16 @@ const noteSchema = new Schema(
     content: {
       type: String,
     },
-    date: { type: Date, default: Date.now() },
+    createdAt: { type: Date, default: Date.now() },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    folder: {
+      type: Schema.Types.ObjectId,
+      ref: "Folder",
+    },
   },
   {
     toObject: true,

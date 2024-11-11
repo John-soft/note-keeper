@@ -30,6 +30,7 @@ const userSchema = new Schema(
     },
     accessToken: String,
   },
+
   {
     toJSON: {
       transform(doc, ret) {
