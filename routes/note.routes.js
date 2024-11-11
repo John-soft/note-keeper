@@ -2,38 +2,19 @@ const express = require("express");
 const router = express.Router();
 const AuthMiddleware = require("../middleware/auth.middleware");
 const NoteController = require("../controllers/note.controller");
-router.post(
-  "/create-note",
-  AuthMiddleware.validateBearerToken,
-  AuthMiddleware.validateUserStatus,
-  NoteController.createNote
-);
-router.get(
-  "/view-notes",
-  AuthMiddleware.validateBearerToken,
-  AuthMiddleware.validateUserStatus,
-  NoteController.viewAllNotes
-);
 
-router.get(
-  "/view-note/:id",
+router.use(
   AuthMiddleware.validateBearerToken,
-  AuthMiddleware.validateUserStatus,
-  NoteController.viewNote
+  AuthMiddleware.validateUserStatus
 );
+router.post("/create-note", NoteController.createNote);
 
-router.patch(
-  "/edit-note/:id",
-  AuthMiddleware.validateBearerToken,
-  AuthMiddleware.validateUserStatus,
-  NoteController.editNote
-);
+router.get("/view-notes", NoteController.viewAllNotes);
 
-router.delete(
-  "/delete-note/:id",
-  AuthMiddleware.validateBearerToken,
-  AuthMiddleware.validateUserStatus,
-  NoteController.deleteNote
-);
+router.get("/view-note/:id", NoteController.viewNote);
+
+router.patch("/edit-note/:id", NoteController.editNote);
+
+router.delete("/delete-note/:id", NoteController.deleteNote);
 
 module.exports = router;

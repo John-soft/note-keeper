@@ -31,7 +31,10 @@ class NoteController {
 
   viewAllNotes = async (req, res) => {
     try {
-      const notes = await Note.find({ user: req.user }).sort({ createdAt: -1 });
+      const notes = await Note.find({ user: req.user })
+        .populate("user", "name")
+        .populate("folder", "name")
+        .sort({ createdAt: -1 });
       if (!notes) {
         return {
           message: "Notes not found",
