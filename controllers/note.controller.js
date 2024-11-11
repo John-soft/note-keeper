@@ -62,7 +62,7 @@ class NoteController {
   viewNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const notes = await Note.findOne({ _id: id, user: req.user });
+      const notes = await Note.findOne({ _id: id, user: req.user.id });
       if (!notes) {
         return {
           message: "Note not found",
