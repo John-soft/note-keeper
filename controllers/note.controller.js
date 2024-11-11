@@ -53,7 +53,7 @@ class NoteController {
   viewNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const notes = await Note.findOne({ id });
+      const notes = await Note.findById(id);
       if (!notes) {
         return {
           message: "Note not found",
@@ -81,7 +81,7 @@ class NoteController {
   editNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const note = await Note.findByIdAndUpdate({ id }, req.body, {
+      const note = await Note.findByIdAndUpdate(id, req.body, {
         new: true,
       });
       if (!note) {
@@ -93,7 +93,7 @@ class NoteController {
       handleResponse(
         req,
         res,
-        { data: note, message: "Note updated successfully " },
+        { data: note, message: "Note updated successfully" },
         200
       );
     } catch (error) {
@@ -109,14 +109,14 @@ class NoteController {
   deleteNote = async (req, res) => {
     try {
       const id = req.params.id;
-      const note = await Note.findByIdAndDelete({ id });
+      const note = await Note.findByIdAndDelete(id);
       if (!note) {
         return {
           message: "Note not found",
         };
       }
 
-      handleResponse(req, res, { data: null, message: "Note deleted" }, 204);
+      handleResponse(req, res, { data: null, message: "Note deleted" }, 200);
     } catch (error) {
       handleResponse(
         req,
