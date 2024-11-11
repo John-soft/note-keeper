@@ -1,5 +1,6 @@
 const handleResponse = require("../helpers/response");
 const Folder = require("../models/Folder");
+const Note = require("../models/Note");
 
 class FolderController {
   createFolder = async (req, res) => {
@@ -23,7 +24,14 @@ class FolderController {
   };
   getFolders = async (req, res) => {
     try {
-      const folders = await Folder.find({ user: req.user }).populate("notes");
+      const folders = await Folder.find({ user: req.user._id }).lean().exec();
+
+      for (const folder of folders) {
+        folder.notes = await Note.find({
+          folder: folder._id,
+          user: req.user._id,
+        });
+      }
       res.json(folders);
     } catch (err) {
       res.status(400).json({ message: err.message });

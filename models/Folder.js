@@ -10,19 +10,25 @@ const folderSchema = new Schema(
       ref: "User",
       required: true,
     },
-    notes: {
-      type: Schema.Types.ObjectId,
-      ref: "Note",
-    },
   },
   {
+    toObject: {
+      virtuals: true,
+    },
     timestamps: true,
     toJSON: {
       transform(doc, ret) {
         delete ret.__v;
       },
+      virtuals: true,
     },
   }
 );
+
+// folderSchema.virtual("notes", {
+//   ref: "Note",
+//   localField: "_id",
+//   foreignField: "folder",
+// });
 
 module.exports = model("Folder", folderSchema);
