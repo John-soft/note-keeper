@@ -1,1 +1,1 @@
-A note keeping app 
+A note keeping app with auth,notes and folder
