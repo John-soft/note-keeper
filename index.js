@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.get("/", (req, res) => {
-  res.send("Welcome to the note taking app ");
+  res.json({ data: "Welcome to the note taking app " });
 });
 app.use("/api", AppRoutes);
 
