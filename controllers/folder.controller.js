@@ -22,6 +22,26 @@ class FolderController {
       );
     }
   };
+
+  searchFolder = async (req, res) => {
+    try {
+      const { query } = req.query;
+      if (!query) {
+        return res
+          .status(400)
+          .json({ error: "Please provide a search query." });
+      }
+
+      const folders = await Folder.find({
+        user: req.user._id,
+        name: { $regex: query, $options: "i" },
+      });
+      res.status(200).json(folders);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
   getFolders = async (req, res) => {
     try {
       const folders = await Folder.find({ user: req.user._id }).lean().exec();

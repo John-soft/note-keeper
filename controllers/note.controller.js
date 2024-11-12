@@ -29,6 +29,25 @@ class NoteController {
     }
   };
 
+  searchNote = async (req, res) => {
+    try {
+      const { query } = req.query;
+      if (!query) {
+        return res
+          .status(400)
+          .json({ error: "Please provide a search query." });
+      }
+
+      const notes = await Note.find({
+        user: req.user._id,
+        name: { $regex: query, $options: "i" },
+      });
+      res.status(200).json(notes);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
   viewAllNotes = async (req, res) => {
     try {
       const notes = await Note.find({ user: req.user._id })

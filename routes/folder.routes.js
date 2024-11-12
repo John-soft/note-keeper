@@ -13,6 +13,8 @@ router
   .post(FolderController.createFolder)
   .get(FolderController.getFolders);
 
+router.get("/search", FolderController.searchFolder);
+
 router
   .route("/:id")
   .get(FolderController.getFolder)

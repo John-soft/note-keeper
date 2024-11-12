@@ -11,6 +11,8 @@ router.post("/create-note", NoteController.createNote);
 
 router.get("/view-notes", NoteController.viewAllNotes);
 
+router.get("/search", NoteController.searchNote);
+
 router.get("/view-note/:id", NoteController.viewNote);
 
 router.patch("/edit-note/:id", NoteController.editNote);
