@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 const noteSchema = new Schema(
   {
@@ -10,12 +10,12 @@ const noteSchema = new Schema(
     },
     createdAt: { type: Date, default: Date.now() },
     user: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "User",
       required: true,
     },
     folder: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "Folder",
     },
   },
