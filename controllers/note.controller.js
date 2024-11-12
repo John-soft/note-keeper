@@ -40,7 +40,7 @@ class NoteController {
 
       const notes = await Note.find({
         user: req.user._id,
-        name: { $regex: query, $options: "i" },
+        title: { $regex: query, $options: "i" },
       });
       res.status(200).json(notes);
     } catch (error) {

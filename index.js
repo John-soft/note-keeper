@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const http = require("http");
 const bodyParser = require("body-parser");
 const CustomError = require("./utils/custom.error");
+const globalErrorHandler = require("./utils/global.error.handler");
 const connectDB = require("./config/db");
 const AppRoutes = require("./routes/app.routes");
 const server = http.createServer(app);
@@ -22,6 +23,7 @@ app.all("*", (req, res, next) => {
   const err = new CustomError(`Route ${req.originalUrl} not found`, 404);
   next(err);
 });
+app.use(globalErrorHandler);
 
 server.listen(PORT, () => {
   connectDB();
