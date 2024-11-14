@@ -4,8 +4,10 @@ const app = express();
 const morgan = require("morgan");
 const http = require("http");
 const bodyParser = require("body-parser");
-const CustomError = require("./utils/custom.error");
-const globalErrorHandler = require("./utils/global.error.handler");
+const {
+  globalErrorHandler,
+  notFound,
+} = require("./utils/global.error.handler");
 const connectDB = require("./config/db");
 const AppRoutes = require("./routes/app.routes");
 const server = http.createServer(app);
@@ -19,10 +21,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api", AppRoutes);
 
-app.all("*", (req, res, next) => {
-  const err = new CustomError(`Route ${req.originalUrl} not found`, 404);
-  next(err);
-});
+app.all("*", notFound);
 app.use(globalErrorHandler);
 
 server.listen(PORT, () => {
